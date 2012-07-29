@@ -34,9 +34,7 @@ console.log "Server has started."
 server = app.listen 62000
 io     = require('socket.io').listen server
 
-broadcast = (method, message) ->
-    for id, socket of sockets
-        socket.emit(method, message)
+sockets = []
 
 io.sockets.on 'connection', (socket) ->
     sockets[socket.id] = socket

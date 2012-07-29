@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Top</title>
+<script text="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<script text="javascript" src="/socket.io/socket.io.js"></script>
+<script>
+    jQuery(function({
+        var socket = io.connect('http://183.181.168.155');
+     
+        // 接続時の動作
+        socket.on('user connected', function (data) {
+            jQuery('span').html(data);
+        });
+                   
+        // 切断時の動作
+        socket.on('user disconnected', function (data) {
+            jQuery('span').html(data);
+        });
+    });
+</script>
+</head>
+<body>
+    <div>このページにアクセスしているのは<span></span>人です。</div>
+</body>
+</html>
