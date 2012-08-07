@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1,user-scalable=no">
+<title>ぐんまーをたおせ</title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+<script text="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+<script text="javascript" src="/socket.io/socket.io.js"></script>
+<script>
+    var old_y;
+    var y;
+    var count;
+    $(function(){
+        var socket = io.connect('http://183.181.168.155:62000');
+        socket.on('user connected', function (data) {
+            $('#result').html('count : ' + data);
+                  count = data;
+              });
+
+        window.addEventListener("devicemotion",function(evt){
+            y = evt.accelerationIncludingGravity.y; //縦方法の傾斜
+            if(y > 10 || y < -10){
+                socket.emit('count up', count);
+            }
+            $("#result").html("count :" + count);
+        },false);
+        
+        // 切断時の動作
+        socket.on('user disconnected', function (data) {
+        
+        });
+    });
+</script>
+</head>
+<body>
+<div data-role="page" id="maincontents">
+<div data-role="header">
+<h1>ジャイロセンサー</h1>
+</div>
+<div data-role="content">
+<p>本体を傾けて下さい</p>
+<output id="result"></output>
+</div>
+</div>
+</body>
+</html>
